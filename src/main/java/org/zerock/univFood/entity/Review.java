@@ -1,0 +1,24 @@
+package org.zerock.univFood.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@ToString(exclude = {"univFood", "member"})
+public class Review extends BaseEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reviewnum;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UnivFood univFood;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
+
+    private int grade;
+    private String text;
+
+}
