@@ -13,6 +13,7 @@ import org.zerock.univFood.entity.UnivFood;
 import org.zerock.univFood.entity.UnivFoodImage;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -53,13 +54,14 @@ public class UnivFoodRepositoryTests {
 //
 //    }
 
-    @Test
-    public void testListPage(){
-        PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.Direction.DESC, "uno"));
-        Page<Object[]> result = univFoodRepository.getListPage(pageRequest);
+//
 
-        for(Object[] objects : result.getContent()){
-            System.out.println(Arrays.toString(objects));
+    @Test
+    public void testGetUnivFoodWithAll(){
+        List<Object[]> result = univFoodRepository.getUnivFoodWithAll(9L);
+        System.out.println(result);
+        for (Object[] arr: result){
+            System.out.println(Arrays.toString(arr));
         }
     }
 }
