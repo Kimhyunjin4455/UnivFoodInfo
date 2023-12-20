@@ -14,8 +14,9 @@ public interface UnivFoodRepository extends JpaRepository<UnivFood, Long> {
             +"left outer join Review r on r.univFood = u group by u")
     Page<Object[]> getListPage(Pageable pageable);
 
-    @Query("select u, ui "
+    @Query("select u, ui, avg(coalesce(r.grade,0)), count(distinct(r)) "
             +" from UnivFood u left outer join UnivFoodImage ui on ui.univFood = u "
-            +" where u.uno = :uno")
+            +" left outer join Review r on r.univFood = u "
+            +" where u.uno = :uno group by ui")
     List<Object[]> getUnivFoodWithAll(Long uno); // 특정 음식점 조회
 }
