@@ -15,7 +15,15 @@ public class UploadController {
 
     @PostMapping("/uploadAjax")
     public void uploadFile(MultipartFile[] uploadfiles){    // 동시에 여러 개의 파일 정보 처리 위해 MultipartFile[]
-        for(MultipartFile uploadFile: uploadfiles){         // 실제 파일 이름(IE나 Edge는 전체 경로가 들어옴)
+        for(MultipartFile uploadFile: uploadfiles){
+
+            // 이미지 파일만 업로드 가능하도록
+            if(uploadFile.getContentType().startsWith("image") == false){
+                log.warn("this file is not image type");
+                return;
+            }
+
+            // 실제 파일 이름(IE나 Edge는 전체 경로가 들어옴)
             String originalName = uploadFile.getOriginalFilename();     // 업로드 하는 파일의 이름 파악
             String fileName = originalName.substring(originalName.lastIndexOf("\\")+1);
             log.info("fileName: " + fileName);
