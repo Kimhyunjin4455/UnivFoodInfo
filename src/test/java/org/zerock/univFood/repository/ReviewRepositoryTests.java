@@ -18,7 +18,7 @@ public class ReviewRepositoryTests {
 
 //    @Test
 //    public void 음식점리뷰삽입(){
-//        IntStream.rangeClosed(1,20).forEach(i->{
+//        IntStream.rangeClosed(1,10).forEach(i->{
 //            Long uno = (long)(Math.random()*10)+1;
 //
 //            Long mid = ((long)(Math.random()*10)+1);

@@ -47,15 +47,44 @@
           });
           // $.ajax
           // 브라우저의 처리가 완료된 후, 화면에서 파일을 선택하고 업로드 이후에 다시 브라우저를 통해 업로드된 파일을 조회 가능
+
+          // * 파일 삭제
+          // 1. 삭제 버튼 추가
+          // 2. 삭제 버튼과 이미지를 하나의 div로 묶기 -> 버튼과 이미지를 한번에 처리(요소 삭제)할 수 있도록
+
           function showUploadedImages(arr){
               console.log(arr);
 
               var divArea = $(".uploadResult");
 
+              var str ="";
+
               for(var i = 0; i < arr.length; i++){
-                  divArea.append("<img src='/display?fileName="+arr[i].imageURL+"'>");
+                  str += "<div>";
+                  str += "<img src='/display?fileName="+arr[i].thumbnailURL+"'>";
+                  str += "<button class='removeBtn' data-name='"+arr[i].imageURL+"'>삭제</button>";
+                  // data-name 은 커스텀 속성 (삭제해야 하는 파일의 이름을 알아내는 용도)
+                  str += "</div>";
+
+                  //divArea.append("<img src='/display?fileName="+arr[i].thumbnailURL+"'>");
               }
+              divArea.append(str);
           }
+      });
+
+      $(".uploadResult").on("click", ".removeBtn", function(e){
+          var target = $(this);
+          var fileName = target.data("name");
+          var targetDiv = $(this).closest("div");
+
+          console.log(fileName);
+
+          $.post('/removeFile', {fileName: fileName}, function(result){
+              console.log(result);
+              if(result === true){
+                  targetDiv.remove();
+              }
+          });
       });
 
   </script>

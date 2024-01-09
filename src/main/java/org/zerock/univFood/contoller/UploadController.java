@@ -15,6 +15,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -71,7 +72,7 @@ public class UploadController {
                 File thumbnailFile = new File(thumbnailSaveName);
 
                 // 섬네일 생성 (가로 세로가 100px인 섬네일 생성, thumbnailFile)
-                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
+                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 200, 200);
 
 
                 resultDTOList.add(new UploadResultDTO(fileName,uuid,folderPath));
@@ -113,6 +114,27 @@ public class UploadController {
     }
     // URL인코딩된 파일 이름을 파라미터로 받아 해당 파일을 byte[]로 만들어 브라우저로 전송
     // 브라우저에 업로드된 결과 중 UploadResultDTO의 getImageURL()을 통한 imageURL 속성이 있음
+
+    @PostMapping("/removeFile")
+    public ResponseEntity<Boolean> removeFile(String fileName){
+        // 원본 파일의 이름을 파라미터로 받아, File 객체를 이용해 원본과 섬네일을 같이 삭제
+        String srcFileName = null;
+        try{
+            srcFileName = URLDecoder.decode(fileName, "UTF-8");
+            File file = new File(uploadPath + File.separator + srcFileName);
+            boolean result = file.delete();
+
+            File thumbnail = new File(file.getParent(), "s_" + file.getName());
+
+            result = thumbnail.delete();
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 
