@@ -7,14 +7,29 @@
         <form th:action="@{/univFood/register}" th:method="post">
             <div class="form-group">
                 <label style="margin-bottom: 10px;">가게명</label>
-                <input type="text" class="form-control" name="title" placeholder="음식점 이름을 입력해주세요" style="margin-bottom: 10px;">
+                <input type="text" class="form-control" name="restaurantName" placeholder="음식점 이름을 입력해주세요" style="margin-bottom: 10px;">
+            </div>
+
+            <div class="form-group">
+                <label style="margin-bottom: 10px;">대표 메뉴(또는 추천 메뉴)</label>
+                <input type="text" class="form-control" name="signatureMenu" placeholder="메뉴를 입력해주세요" style="margin-bottom: 10px;">
+            </div>
+
+            <div class="form-group">
+                <label style="margin-bottom: 10px;">연락처</label>
+                <input type="text" class="form-control" name="contact" placeholder="음식점의 연락처를 입력해주세요" style="margin-bottom: 10px;">
+            </div>
+
+            <div class="form-group">
+                <label style="margin-bottom: 10px;">위치</label>
+                <input type="text" class="form-control" name="address" placeholder="음식점의 위치를 입력해주세요" style="margin-bottom: 10px;">
             </div>
 
             <div class="form-group fileForm">
                 <label style="margin-bottom: 10px;">이미지 파일</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input files" id="fileInput" multiple style="margin-bottom: 10px;">
-                    <label class="custom-file-label" data-browse="Browse" style="margin-bottom: 10px;"></label>
+                    <input type="file" class="form-control custom-file-input files" id="fileInput" multiple style="margin-bottom: 17px;">
+<!--                    <label class="custom-file-label" data-browse="Browse"></label>-->
                 </div>
             </div>
 
@@ -22,12 +37,126 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary">제출</button>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 10px;">제출</button>
         </form>
+
+        <div class="uploadResult">
+            <ul>
+
+            </ul>
+        </div>
+
+        <style>
+            .uploadResult {
+                width: 100%;
+                background-color: gray;
+                margin-top: 10px;
+            }
+            .uploadResult ul {
+                display: flex;
+                flex-flow: row;
+                justify-content: center;
+                align-items: center;
+                vertical-align: top;
+                overflow: auto;
+            }
+            .uploadResult ul li {
+                list-style: none;
+                padding: 10px;
+                margin-left: 2em;
+            }
+            .uploadResult ul li img {
+                width: 190px;
+                border-radius: 12%;
+            }
+        </style>
+
+
 
         <script>
             $(document).ready(function(e){
+                var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff)$");  //불가능한 파일 확장자
+                var maxSize = 10485760;   //10MB가 최대크기
 
+                function checkExtension(fileName, fileSize){
+                    if(fileSize >= maxSize){
+                        alert("파일 사이즈 초과");
+                        return false;
+                    }
+
+                    if(regex.test(fileName)){
+                        alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+                        return false;
+                    }
+                    return true;
+                }
+
+                //
+                function showResult(uploadResultArr){
+                    var uploadUL = $(".uploadResult ul");
+                    var str = "";
+
+                    $(uploadResultArr).each(function(i, obj){
+                        str += "<li data-name='" + obj.fileName + "' data-path='" + obj.folderPath + "' data-uuid='" + obj.uuid + "'>";
+                        str += "<div>";
+                        str += "<button type='button' data-file=\'" + obj.imageURL + "\' ";
+                        str += "class='btn-warning btn-sm'>X</button><br>";
+                        str += "<img src='/display?fileName=" + obj.thumbnailURL + "'>";
+                        str += "</div>";
+                        str += "</li>";
+                    });
+                    uploadUL.append(str);
+
+
+                }
+
+
+                // register.html에서 파일 업로드를 하는 부분의 클래스는 custom-file-input 이므로 이를 이용하여 이벤트 처리
+                // 첨부파일 업로드하고 파일을 화면에 보여주는 부분도 같이 처리
+                // 별도의 버튼 없이 파일을 선택하면 자동으로 이루어지도록
+                $(".custom-file-input").on("change", function(){
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+                    var formData = new FormData();
+                    var inputFile = $(this);
+                    var files = inputFile[0].files;
+                    var appended = false;
+
+                    for(var i=0; i<files.length; i++){
+                        if(!checkExtension(files[i].name, files[i].size)){
+                            return false;
+                        }
+                        console.log(files[i]);
+                        formData.append("uploadFiles", files[i]);
+                        appended = true;
+                    }
+
+                    // don't upload
+                    if(!appended){return;}
+
+                    for(var value of formData.values()){
+                        console.log(value);
+                    }
+
+                    // 실제 업로드 부분
+                    $.ajax({
+                        url: '/uploadAjax',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function(result) {
+                            console.log(result);
+                            showResult(result);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        }
+                    });
+
+                }); // end change event
             }); // document ready
         </script>
 

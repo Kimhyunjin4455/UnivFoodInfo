@@ -19,7 +19,7 @@ public class UnivFood extends BaseEntity{
     private Long uno;
     private String restaurantName;
     private String foodField;
-    private String signitureMenu;
+    private String signatureMenu;
     private String contact;
     private String address;
 
