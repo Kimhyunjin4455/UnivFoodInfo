@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.zerock.univFood.dto.UploadResultDTO;
+import net.coobird.thumbnailator.Thumbnailator;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +33,11 @@ public class UploadController {
     private String uploadPath;
 
     @PostMapping("/uploadAjax")
-    public ResponseEntity<List<UploadResultDTO>> uploadFile(MultipartFile[] uploadfiles){    // 동시에 여러 개의 파일 정보 처리 위해 MultipartFile[]
-
+    public ResponseEntity<List<UploadResultDTO>> uploadFile(MultipartFile[] uploadFiles){    // 동시에 여러 개의 파일 정보 처리 위해 MultipartFile[]
+    // 업로드 결과 반환하기 위해 ResponseEntity 이용하여 처리
         List<UploadResultDTO> resultDTOList = new ArrayList<>();
 
-        for(MultipartFile uploadFile: uploadfiles){
+        for(MultipartFile uploadFile: uploadFiles){
 
             // 이미지 파일만 업로드 가능하도록
             if(uploadFile.getContentType().startsWith("image") == false){
@@ -63,7 +64,16 @@ public class UploadController {
             Path savePath = Paths.get(saveName); // Paths 클래스는 Path 클래스를 다룰 수 있는 여러 메서드를 제공
 
             try{
-                uploadFile.transferTo(savePath); // 실제 이미지 저장
+                uploadFile.transferTo(savePath); // 원본 파일 저장
+
+                // 섬네일 파일 명 생성
+                String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+                File thumbnailFile = new File(thumbnailSaveName);
+
+                // 섬네일 생성 (가로 세로가 100px인 섬네일 생성, thumbnailFile)
+                Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
+
+
                 resultDTOList.add(new UploadResultDTO(fileName,uuid,folderPath));
             }catch (IOException e){
                 e.printStackTrace();
@@ -115,7 +125,7 @@ public class UploadController {
     private String makeFolder(){
         String str = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         // // 아래 API(File.separator)를 이용하면 OS에 호환되는 파일 경로를 구성할 수 있음 (프로그램이 실행 중인 OS에 해당하는 구분자를 리턴)
-        String folderPath = str.replace("/", File.separator);
+        String folderPath = str.replace("//", File.separator);
 
 
         // 폴더 생성

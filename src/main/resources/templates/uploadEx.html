@@ -23,11 +23,11 @@
               formData.append("uploadFiles", files[i]);   // 컨트롤러에 사용하는 uploadFiles 라는 이름으로 파일 데이터 추가
           }
 
-<!--        // 실제 업로드 부분-->
-<!--        // upload Ajax-->
-<!--        // 파일 업로드 위해 contentType 속성을 반드시 false로-->
-<!--        // 파일 업로드는 multipart/form-data 타입을 사용하기 위한 용도-->
-<!--        // 데이터타입은 json을 지정했지만, (현재 UploadController의 메서드는 어떠한 것도 변환하지 않음) -> 추후 수정 가능성-->
+        // 실제 업로드 부분
+        // upload Ajax
+        // 파일 업로드 위해 contentType 속성을 반드시 false로
+        // 파일 업로드는 multipart/form-data 타입을 사용하기 위한 용도
+        // 데이터타입은 json을 지정했지만, (현재 UploadController의 메서드는 어떠한 것도 변환하지 않음) -> 추후 수정 가능성
           $.ajax({
               url: '/uploadAjax',
               processData: false,
@@ -36,8 +36,8 @@
               type: 'POST',
               dataType: 'json',
               success: function(result){
-                  console.log(result);
-                //showUploadedImages(result);
+                //console.log(result);
+                showUploadedImages(result);
                 // 나중에 회면 처리
               },
               error: function(jqXHR, textStatus, errorThrown){
@@ -47,7 +47,7 @@
           });
           // $.ajax
           // 브라우저의 처리가 완료된 후, 화면에서 파일을 선택하고 업로드 이후에 다시 브라우저를 통해 업로드된 파일을 조회 가능
-          function showUploadImages(arr){
+          function showUploadedImages(arr){
               console.log(arr);
 
               var divArea = $(".uploadResult");
