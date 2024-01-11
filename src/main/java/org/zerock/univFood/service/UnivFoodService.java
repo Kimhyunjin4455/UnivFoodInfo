@@ -1,5 +1,7 @@
 package org.zerock.univFood.service;
 
+import org.zerock.univFood.dto.PageRequestDTO;
+import org.zerock.univFood.dto.PageResultDTO;
 import org.zerock.univFood.dto.UnivFoodDTO;
 import org.zerock.univFood.dto.UnivFoodImageDTO;
 import org.zerock.univFood.entity.UnivFood;
@@ -12,6 +14,11 @@ import java.util.stream.Collectors;
 
 public interface UnivFoodService {
     Long register(UnivFoodDTO univFoodDTO);
+
+    // UnivFood객체, UnivFoodImage객체, double 값으로 나오는 식당의 평점, Lond타입 리뷰 개수를 Object[] 배열을 리스트에 담은 형태
+    // Object[]를 UnivFoodDTO 라는 하나의 객체로 처리
+    // 컨트롤러가 호출할 때 사용
+    PageResultDTO<UnivFoodDTO, Object[]> getList(PageRequestDTO requestDTO); // 목록 처리
 
     // UnivFood를 JPA로 처리하기 위해 UnivFoodDTO를 UnivFood 객체로 변환해주어야 함
     // -> dtoToEntity() 추가 (UnivFoodImage 객체들도 같이 처리하기 위해 Map 타입을 이용해 반환)
@@ -46,5 +53,32 @@ public interface UnivFoodService {
         }
 
         return entityMap;
+    }
+
+    // JPA를 통해 나오는 엔티티 객체와 double, Long등의 값을 UnivFoodDTO로 변환하는 메서드
+    // 조회 화면에서 여러 개의 UnivFoodImage를 처리 하기 위해 List<UnivFoodImage> 사용
+    default UnivFoodDTO entitiesToDTO(UnivFood univFood, List<UnivFoodImage> univFoodImages, Double avg, Long reviewCnt){
+
+        UnivFoodDTO univFoodDTO = UnivFoodDTO.builder()
+                .uno(univFood.getUno())
+                .restaurantName(univFood.getRestaurantName())
+                .signatureMenu(univFood.getSignatureMenu())
+                .contact(univFood.getContact())
+                .address(univFood.getAddress())
+                .regDate(univFood.getRegDate())
+                .modDate(univFood.getModDate()).build();
+
+        List<UnivFoodImageDTO> univFoodImageDTOList = univFoodImages.stream().map(univFoodImage -> {
+            return UnivFoodImageDTO.builder()
+                    .imgName(univFoodImage.getImgName())
+                    .path(univFoodImage.getPath())
+                    .uuid(univFoodImage.getUuid()).build();
+        }).collect(Collectors.toList());
+
+        univFoodDTO.setImageDTOList(univFoodImageDTOList);
+        univFoodDTO.setAvg(avg);
+        univFoodDTO.setReviewCnt(reviewCnt.intValue());
+
+        return univFoodDTO;
     }
 }
