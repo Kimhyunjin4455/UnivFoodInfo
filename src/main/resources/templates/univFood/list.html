@@ -39,16 +39,31 @@
                th:src="|/display?fileName=${dto.imageDTOList[0].getThumbnailURL()}|">[[${dto.restaurantName}]]
         </td>
         <td><b>[[${dto.signatureMenu}]]</b></td>
-        <td><b>[[${dto.contact}]]</b></td>
-        <td><b>[[${dto.address}]]</b></td>
         <td><b>[[${dto.reviewCnt}]]</b></td>
         <td><b>[[${dto.avg}]]</b></td>
-        <td>[[${temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+        <td><b>[[${dto.contact}]]</b></td>
+        <td><b>[[${dto.address}]]</b></td>
+        <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
         </th>
       </tr>
       </tbody>
 
     </table>
+
+    <ul class="pagination h-100 justify-content-center align-items-center">
+      <li class="page-item " th:if="${result.prev}">
+        <a class="page-link" th:href="@{/univFood/list(page= ${result.start-1})}" tabindex="-1">이전</a>
+      </li>
+
+      <li th:class=" 'page-item' + ${result.page == page?'active':''}" th:each="page: ${result.pageList}">
+        <a class="page-link" th:href="@{/univFood/list(page= ${page})}">[[${page}]]</a>
+      </li>
+
+      <li class="page-item " th:if="${result.next}">
+        <a class="page-link" th:href="@{/univFood/list(page= ${result.end+1})}">다음</a>
+      </li>
+    </ul>
+
     <script th:inline="javascript">
 
     </script>
