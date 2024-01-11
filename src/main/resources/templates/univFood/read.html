@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+  <th:block th:fragment="content">
+    <h1 class="mt-4"> 맛집 정보가 궁금하신가요!</h1>
+
+    <div class="form-group">
+        <label>가게명</label>
+        <input type="text" class="form-control" name="restaurant" th:value="${dto.restaurantName}" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>대표 메뉴</label>
+        <input type="text" class="form-control" name="restaurant" th:value="${dto.signatureMenu}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>리뷰 갯수</label>
+      <input type="text" class="form-control" name="restaurant" th:value="${dto.reviewCnt}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>평점</label>
+      <input type="text" class="form-control" name="restaurant" th:value="${dto.avg}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>위치</label>
+      <input type="text" class="form-control" name="restaurant" th:value="${dto.address}" readonly>
+    </div>
+
+    <div class="form-group">
+      <label>연락처</label>
+      <input type="text" class="form-control" name="restaurant" th:value="${dto.contact}" readonly>
+    </div>
+
+    <style>
+      .uploadResult {
+                width: 100%;
+                background-color: gray;
+                margin-top: 10px;
+            }
+            .uploadResult ul {
+                display: flex;
+                flex-flow: row;
+                justify-content: center;
+                align-items: center;
+                vertical-align: top;
+                overflow: auto;
+            }
+            .uploadResult ul li {
+                list-style: none;
+                padding: 10px;
+                margin-left: 2em;
+            }
+            .uploadResult ul li img {
+                width: 170px;
+                border-radius: 12%;
+            }
+    </style>
+
+    <div class="uploadResult">
+      <ul>
+        <li th:each="univFoodImage: ${dto.imageDTOList}" th:data-file="${univFoodImage.getThumbnailURL()}">
+          <img th:if="${univFoodImage.path != null}"
+               th:src="|/display?fileName=${univFoodImage.getThumbnailURL()}|">
+        </li>
+      </ul>
+    </div>
+
+    <button type="button" class="btn btn-primary">
+      리뷰 갯수<span class="badge badge-light">[[${dto.reviewCnt}]]</span>
+    </button>
+
+    <script>
+      $(document).ready(function(e){
+
+      });
+    </script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>

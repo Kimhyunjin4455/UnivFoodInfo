@@ -81,4 +81,6 @@ public interface UnivFoodService {
 
         return univFoodDTO;
     }
+
+    UnivFoodDTO getUnivFood(Long uno);
 }
