@@ -39,10 +39,17 @@
                th:src="|/display?fileName=${dto.imageDTOList[0].getThumbnailURL()}|"><br>&emsp;&emsp;&emsp;&emsp;[[${dto.restaurantName}]]
         </td>
         <td><b>[[${dto.signatureMenu}]]</b></td>
+
         <td><b>&emsp;&ensp;[[${dto.reviewCnt}]]</b></td>
         <td><b>&nbsp;[[${dto.avg}]]</b></td>
 <!--        <td><b>[[${dto.contact}]]</b></td>-->
 <!--        <td><b>[[${dto.address}]]</b></td>-->
+
+        <td><b>[[${dto.reviewCnt}]]</b></td>
+        <td><b>[[${dto.avg}]]</b></td>
+        <td><b>[[${dto.contact}]]</b></td>
+        <td><b>[[${dto.address}]]</b></td>
+
         <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
         </th>
       </tr>
@@ -64,11 +71,13 @@
       </li>
     </ul>
 
+
     <style>
       p{
         text-align: center;
       }
     </style>
+
 
     <script th:inline="javascript">
 
