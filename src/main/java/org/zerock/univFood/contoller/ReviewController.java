@@ -56,6 +56,6 @@ public class ReviewController {
 
         reviewService.remove(reviewnum);
 
-        return new ResponseEntity<>(reviewnum, HttpStatus.OK)
+        return new ResponseEntity<>(reviewnum, HttpStatus.OK);
     }
 }
