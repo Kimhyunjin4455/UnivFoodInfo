@@ -76,7 +76,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">인근 맛집 추천</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close replyClose" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -124,13 +124,62 @@
       </div>
     </div>
 
+    <script th:src="@{/js/starrr.js}"></script>
+    <link th:href="@{/css/starrr.css}" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
 
     <button type="button" class="btn btn-primary">
-      리뷰 갯수<span class="badge badge-light">[[${dto.reviewCnt}]]</span>
+      댓글 수<span class="badge badge-light">[[${dto.reviewCnt}]]</span>
     </button>
+    <button type="button" class="btn btn-info addReviewBtn">댓글 등록</button>
+
+    <div class="list-group reviewList"></div>
 
     <script>
       $(document).ready(function(e){
+        var grade = 0;
+        var uno = [[${dto.uno}]];
+        var modal = $('.modal');
+
+        $(".reviewModal .replyClose ").on("click", () => {
+            reviewModal.modal('hide');
+        });
+
+        $(".reviewModal .btn-secondary ").on("click", () => {
+            reviewModal.modal('hide');
+        });
+
+        $('.starrr').starrr({
+                    rating: grade,
+                    change: function(e, value) {
+                        if(value) {
+                            console.log(value);
+                            grade = value;
+                        }
+                    }
+                });
+
+        //$(".reviewModal").modal("show");
+
+        var reviewModal = $(".reviewModal");
+        var inputMid = $('.input[name="mid"]');
+        var inputText = $('input[name="text"]');
+
+        $(".addReviewBtn").click(function(){
+          inputMid.val("");
+          inputText.val("");
+
+          $(".removeBtn, modifyBtn").hide();
+          $(".reviewSaveBtn").show();
+
+          reviewModal.modal('show');
+        });
+
+
+
+
+
 
       });
     </script>
