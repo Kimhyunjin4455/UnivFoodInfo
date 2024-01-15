@@ -17,6 +17,7 @@ import java.util.List;
 public class UnivFoodDTO {
     private Long uno;
     private String restaurantName;
+    private String foodField;
     private String signatureMenu;
     private String contact;
     private String address;

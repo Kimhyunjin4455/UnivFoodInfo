@@ -29,6 +29,7 @@ public interface UnivFoodService {
         UnivFood univFood = UnivFood.builder()                        // DTO를 정보를 바탕으로 univFood객체 생성
                 .uno(univFoodDTO.getUno())
                 .restaurantName(univFoodDTO.getRestaurantName())
+                .foodField(univFoodDTO.getFoodField())
                 .signatureMenu(univFoodDTO.getSignatureMenu())
                 .contact(univFoodDTO.getContact())
                 .address(univFoodDTO.getAddress())
@@ -63,6 +64,7 @@ public interface UnivFoodService {
                 .uno(univFood.getUno())
                 .restaurantName(univFood.getRestaurantName())
                 .signatureMenu(univFood.getSignatureMenu())
+                .foodField(univFood.getFoodField())
                 .contact(univFood.getContact())
                 .address(univFood.getAddress())
                 .regDate(univFood.getRegDate())

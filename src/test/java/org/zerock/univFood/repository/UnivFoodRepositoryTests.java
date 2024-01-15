@@ -30,9 +30,13 @@ public class UnivFoodRepositoryTests {
 //    @Test
 //    public void 음식점정보삽입(){
 //
-//        IntStream.rangeClosed(1,10).forEach(i->{
+//        IntStream.rangeClosed(1,100).forEach(i->{
 //            UnivFood univFood = UnivFood.builder()
 //                    .restaurantName("음식점,,," +i)
+//                    .signatureMenu("대표메뉴,,,"+i)
+//                    .foodField("음식분야(일식/중식/한식/분식)")
+//                    .address("주소,,,"+i)
+//                    .contact("연락처,,,"+i)
 //                    .build();
 //
 //            System.out.println("------------------------------");
@@ -53,7 +57,7 @@ public class UnivFoodRepositoryTests {
 //        });
 //
 //    }
-
+//
 
 
     @Test
