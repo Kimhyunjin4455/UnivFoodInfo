@@ -176,6 +176,54 @@
           reviewModal.modal('show');
         });
 
+        $('.reviewSaveBtn').click(function(){
+          var data = {uno:uno, grade:grade, text:inputText.val(), mid: inputMid.val()};
+          console.log(data);
+
+          $.ajax({
+            url: '/reviews/'+uno,
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function(result) {
+              console.log("result: " + result);
+              self.location.reload()
+            }
+          });
+
+          reviewModal.modal('hide');
+        });
+
+        function getUnivFoodReviews(){
+          function formatTime(str){
+            var date = new Date(str);
+
+            return date.getFullYear() + '/' +
+              (date.getMonth() + 1) + '/' +
+              date.getDate() + ' ' +
+              date.getHours() + ':' +
+              date.getMinutes();
+          }
+
+          $.getJSON("/reviews/" + uno + "/all", function(arr) {
+            var str = "";
+
+            $.each(arr, function(idx, review) {
+              console.log(review);
+              str += '<div class="card-body" data-reviewnum=' + review.reviewnum + ' data-mid=' + review.mid + '>';                    str += '<h5 class="card-title">' + review.text + ' <span>' + review.grade + '</span></h5>';
+              str += '<h6 class="card-subtitle mb-2 text-muted">' + review.nickname + '</h6>';
+              str += '<p class="card-text">' + formatTime(review.regDate) + '</p>';
+              str += '</div>';
+            });
+
+            $(".reviewList").html(str);
+
+          });
+
+        }
+        getUnivFoodReviews();
+
 
 
 
