@@ -106,7 +106,7 @@
 
 <!-- 이미지를 화면에 보여주는 용도   -->
     <div class="imageModal modal" tabindex="-2" role="dialog">
-      <div class="modal modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">이미지</h5>
@@ -150,6 +150,14 @@
             reviewModal.modal('hide');
         });
 
+        $(".imageModal .close ").on("click", () => {
+            imageModal.modal('hide');
+        });
+
+        $(".imageModal .btn-secondary ").on("click", () => {
+            imageModal.modal('hide');
+        });
+
         $('.starrr').starrr({
                     rating: grade,
                     change: function(e, value) {
@@ -165,6 +173,7 @@
         var reviewModal = $(".reviewModal");
         var inputMid = $('.input[name="mid"]');
         var inputText = $('input[name="text"]');
+        var imageModal = $(".imageModal");
 
         $(".addReviewBtn").click(function(){
           inputMid.val("");
@@ -272,7 +281,7 @@
                   console.log(data);
 
                   $.ajax({
-                    url: '/reviews/'+mno+"/"+reviewnum,
+                    url: '/reviews/'+uno+"/"+reviewnum,
                     type: "DELETE",
                     contentType: "application/json; charset=utf-8",
                     dataType:"text",
@@ -283,6 +292,15 @@
                   })
                   removeModal.modal('hide');
         });
+
+        $(".uploadResult li").click(function(){
+          var file = $(this).data('file');
+          console.log(file);
+
+          $('.imageModal .modal-body').html("<img style='width:100%' src='/display?fileName="+file+"&size=1'>");
+
+          $(".imageModal").modal("show");
+        })
 
       });
     </script>

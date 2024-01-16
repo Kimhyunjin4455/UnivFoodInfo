@@ -87,8 +87,9 @@ public class UploadController {
     // 이 업로드 결과를 화면에서 확인하기 위해
     // 브라우저에서 링크를 통해 <img>태그 후가 + 해당URL이 호출되는 경우 서버에서 이미지 파일 데이터를 브라우저로 전송
     // 이를 위해 '/display?fileName=xx'와 같은 URL 호출 시 이미지가 전송되도록 메서드 추가
-    @GetMapping("display")
-    public ResponseEntity<byte[]> getFile(String fileName){
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> getFile(String fileName, String size){
+        // size 파라미터는 원본 파일인지 섬네일인지 구분하기 위한 것(값이 1인 경우 원본 파일 전송)
         ResponseEntity<byte[]> result = null;
 
         try{
@@ -96,7 +97,13 @@ public class UploadController {
             log.info("fileName: " + srcFileName);
 
             File file = new File(uploadPath + File.separator + srcFileName);
-            log.info("file: "+file);
+
+            if(size != null && size.equals("1")){
+                file = new File(file.getParent(), file.getName().substring(2));
+            }
+
+
+            log.info("file: "+ file);
 
             HttpHeaders header = new HttpHeaders();
 
