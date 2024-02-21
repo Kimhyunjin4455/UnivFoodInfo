@@ -15,7 +15,7 @@ public class Review extends BaseEntity{
     private Long reviewnum;
     @ManyToOne(fetch = FetchType.LAZY)
     private UnivFood univFood;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Member member;
 
     private int grade;

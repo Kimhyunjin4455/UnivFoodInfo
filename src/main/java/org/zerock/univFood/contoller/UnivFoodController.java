@@ -2,15 +2,16 @@ package org.zerock.univFood.contoller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.univFood.dto.PageRequestDTO;
 import org.zerock.univFood.dto.UnivFoodDTO;
+import org.zerock.univFood.entity.UnivFood;
 import org.zerock.univFood.service.UnivFoodService;
 
 @Controller
@@ -52,4 +53,21 @@ public class UnivFoodController {
         UnivFoodDTO univFoodDTO = univFoodService.getUnivFood(uno);
         model.addAttribute("dto", univFoodDTO);
     }
+
+
+    @GetMapping("/delete/{uno}")
+    public String removeUnivFood(@PathVariable Long uno, RedirectAttributes redirectAttributes){ //
+        log.info("--------------delete univFood-------------------");
+        log.info("uno: " + uno);
+
+        univFoodService.remove(uno);
+
+        redirectAttributes.addFlashAttribute("msg", uno);
+
+        log.info("--------------successly delete------------------");
+
+        return "redirect:/univFood";
+    }
+
+
 }

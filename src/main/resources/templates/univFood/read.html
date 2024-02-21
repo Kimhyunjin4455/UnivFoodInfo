@@ -5,6 +5,12 @@
   <th:block th:fragment="content">
     <h1 class="mt-4"> 맛집 정보가 궁금하신가요!</h1>
 
+
+
+      <input type="hidden" name="page" th.value="${dto.uno}">
+<!--      <input type="hidden" name="page" th.value="${}">-->
+<!--      <input type="hidden" name="page" th.value="${}">-->
+
     <div class="form-group">
         <label>가게명</label>
         <input type="text" class="form-control" name="restaurant" th:value="${dto.restaurantName}" readonly>
@@ -34,6 +40,7 @@
       <label>연락처</label>
       <input type="text" class="form-control" name="restaurant" th:value="${dto.contact}" readonly>
     </div>
+
 
     <style>
       .uploadResult {
@@ -134,6 +141,8 @@
     </button>
     <button type="button" class="btn btn-info addReviewBtn">댓글 등록</button>
 
+    <button type="button" class="btn btn-warning deleteUnivFoodBtn" th:onclick="|location.href='@{/univFood/delete/{uno}(uno=${dto.uno})}'|">게시글 삭제</button>
+
     <div class="list-group reviewList"></div>
 
     <script>
@@ -184,6 +193,8 @@
 
           reviewModal.modal('show');
         });
+
+
 
         $('.reviewSaveBtn').click(function(){
 

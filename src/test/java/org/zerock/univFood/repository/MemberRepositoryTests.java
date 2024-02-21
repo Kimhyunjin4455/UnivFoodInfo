@@ -34,12 +34,12 @@ public class MemberRepositoryTests {
     @Transactional
     @Test
     public void 회원삭제테스트(){
-        Long mid = 1L;
+        Long mid = 100L;
         Member member = Member.builder().mid(mid).build();
 
         reviewRepository.deleteByMember(member);
         memberRepository.deleteById(mid);
-
-
     }
+
+
 }

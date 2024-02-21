@@ -14,6 +14,7 @@ import org.zerock.univFood.entity.UnivFoodImage;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -24,6 +25,9 @@ public class UnivFoodRepositoryTests {
     private UnivFoodRepository univFoodRepository;
     @Autowired
     private UnivFoodImageRepository univFoodImageRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
 //    @Commit
 //    @Transactional
@@ -68,4 +72,15 @@ public class UnivFoodRepositoryTests {
             System.out.println(Arrays.toString(arr));
         }
     }
+
+//    @Commit
+//    @Transactional
+//    @Test
+//    public void univFoodDeleteTest(){
+//        UnivFood univFood = univFoodRepository.findById(99L).get();
+//
+//        reviewRepository.deleteByUnivFood(univFood);
+//        univFoodImageRepository.deleteByUnivFoodImage(univFood);
+//        univFoodRepository.deleteByUnivFood(univFood.getUno());
+//    }
 }
