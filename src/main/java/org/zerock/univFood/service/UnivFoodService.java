@@ -88,4 +88,5 @@ public interface UnivFoodService {
 
     void remove(Long uno);
 
+    void modify(UnivFoodDTO univFoodDTO);
 }

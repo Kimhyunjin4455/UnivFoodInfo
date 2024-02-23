@@ -48,7 +48,7 @@ public class UnivFoodController {
     }
 
     @GetMapping({"/read", "/modify"})
-    public void read(long uno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model){
+    public void read(Long uno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model){
         log.info("uno: " + uno);
         UnivFoodDTO univFoodDTO = univFoodService.getUnivFood(uno);
         model.addAttribute("dto", univFoodDTO);
@@ -68,6 +68,25 @@ public class UnivFoodController {
 
         return "redirect:/univFood";
     }
+
+//    @PostMapping("/modify")
+//    public String modify(UnivFoodDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO,
+//                         RedirectAttributes redirectAttributes){
+//        log.info("-----------------post modify------------------");
+//        log.info("dto: "+dto);
+//
+//        univFoodService.modify(dto);
+//
+//        redirectAttributes.addAttribute("");
+//        redirectAttributes.addAttribute();
+//        redirectAttributes.addAttribute();
+//
+//        redirectAttributes.addAttribute();
+//
+//        return "redirect:/univFood/read";
+//    }
+
+
 
 
 }

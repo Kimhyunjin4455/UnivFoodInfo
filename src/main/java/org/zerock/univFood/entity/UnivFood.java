@@ -23,5 +23,18 @@ public class UnivFood extends BaseEntity{
     private String contact;
     private String address;
 
+    public void changeRestaurantName(String restaurantName){
+        this.restaurantName = restaurantName;
+    }
+    public void changeSignatureMenu(String signatureMenu){
+        this.signatureMenu = signatureMenu;
+    }
+    public void changeContact(String contact){
+        this.contact = contact;
+    }
+    public void changeAddress(String address){
+        this.address = address;
+    }
+
 
 }

@@ -110,6 +110,29 @@
         </div>
       </div>
     </div>
+    <!--게시글 삭제시 최종 여부 물을 모달-->
+    <div class="deleteUnivFoodModal modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title">주의</h6>
+            <button type="button" class="close replyClose" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <h5 align="center">게시글을 정말 삭제하시겠습니까?</h5>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button"class="btn btn-danger"
+                      th:onclick="|location.href='@{/univFood/delete/{uno}(uno=${dto.uno})}'|">삭제</button>
+            </div>
+
+        </div>
+      </div>
+    </div>
 
 <!-- 이미지를 화면에 보여주는 용도   -->
     <div class="imageModal modal" tabindex="-2" role="dialog">
@@ -140,8 +163,8 @@
       댓글 수<span class="badge badge-light">[[${dto.reviewCnt}]]</span>
     </button>
     <button type="button" class="btn btn-info addReviewBtn">댓글 등록</button>
-
-    <button type="button" class="btn btn-warning deleteUnivFoodBtn" th:onclick="|location.href='@{/univFood/delete/{uno}(uno=${dto.uno})}'|">게시글 삭제</button>
+    <button type="button" class="btn btn-danger deleteUnivFoodBtn">게시글 삭제</button>
+    <button type="button" class="btn btn-warning">게시글 수정</button>
 
     <div class="list-group reviewList"></div>
 
@@ -167,6 +190,10 @@
             imageModal.modal('hide');
         });
 
+        $(".deleteUnivFoodModal .replyClose ").on("click", () => {
+            deleteUnivFoodModal.modal('hide');
+        });
+
         $('.starrr').starrr({
                     rating: grade,
                     change: function(e, value) {
@@ -183,6 +210,7 @@
         var inputMid = $('.input[name="mid"]');
         var inputText = $('input[name="text"]');
         var imageModal = $(".imageModal");
+        var deleteUnivFoodModal = $(".deleteUnivFoodModal");
 
         $(".addReviewBtn").click(function(){
           inputMid.val("");
@@ -194,7 +222,12 @@
           reviewModal.modal('show');
         });
 
+        $('.deleteUnivFoodBtn').click(function(){
+          inputMid.val("");
+          inputText.val("");
 
+          deleteUnivFoodModal.modal('show');
+        });
 
         $('.reviewSaveBtn').click(function(){
 

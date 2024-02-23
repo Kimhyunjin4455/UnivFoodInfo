@@ -35,4 +35,6 @@ public interface UnivFoodRepository extends JpaRepository<UnivFood, Long> {
 
 
 
+
+
 }

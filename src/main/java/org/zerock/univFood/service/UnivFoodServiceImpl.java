@@ -104,4 +104,18 @@ public class UnivFoodServiceImpl implements UnivFoodService{
 
     }
 
+    @Transactional
+    @Override
+    public void modify(UnivFoodDTO univFoodDTO){
+
+        UnivFood univFood = univFoodRepository.getById(univFoodDTO.getUno());
+
+        univFood.changeRestaurantName(univFoodDTO.getRestaurantName());
+        univFood.changeSignatureMenu(univFoodDTO.getSignatureMenu());
+        univFood.changeContact(univFoodDTO.getContact());
+        univFood.changeAddress(univFoodDTO.getAddress());
+
+        univFoodRepository.save(univFood);
+    }
+
 }

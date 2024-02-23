@@ -9,8 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
+import org.zerock.univFood.dto.UnivFoodDTO;
 import org.zerock.univFood.entity.UnivFood;
 import org.zerock.univFood.entity.UnivFoodImage;
+import org.zerock.univFood.service.UnivFoodService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +30,9 @@ public class UnivFoodRepositoryTests {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private UnivFoodService univFoodService;
 
 //    @Commit
 //    @Transactional
@@ -83,4 +88,21 @@ public class UnivFoodRepositoryTests {
 //        univFoodImageRepository.deleteByUnivFoodImage(univFood);
 //        univFoodRepository.deleteByUnivFood(univFood.getUno());
 //    }
+
+
+    @Commit
+    @Transactional
+    @Test
+    public void testModify(){
+        UnivFoodDTO univFoodDTO = UnivFoodDTO.builder()
+                .uno(103L)
+                .restaurantName("modify102")
+                .signatureMenu("modify102Menu")
+                .address("modifyAddress")
+                .contact("modifyContact")
+                .build();
+
+        univFoodService.modify(univFoodDTO);
+
+    }
 }
