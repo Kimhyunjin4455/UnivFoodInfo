@@ -4,8 +4,84 @@
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
     <th:block th:fragment="content">
         <h1 class="mt-4"> 정보를 수정합니다.</h1>
-    </th:block>
-</th:block>
+
+        <form action="/univFood/modify", method="post">
+
+            <input type="hidden" name="page" th:value="${requestDTO.page}">
+            <input type="hidden" name="type" th:value="${requestDTO.type}">
+            <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
+
+            <div class="form-group">
+                <label>가게명</label>
+                <input type="text" class="form-control" name="restaurant" th:value="${dto.restaurantName}">
+            </div>
+
+            <div class="form-group">
+                <label>대표 메뉴</label>
+                <input type="text" class="form-control" name="restaurant" th:value="${dto.signatureMenu}">
+            </div>
+
+            <div class="form-group">
+                <label>리뷰 갯수</label>
+                <input type="text" class="form-control" name="restaurant" th:value="${dto.reviewCnt}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>평점</label>
+                <input type="text" class="form-control" name="restaurant" th:value="${dto.avg}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>위치</label>
+                <input type="text" class="form-control" name="restaurant" th:value="${dto.address}">
+            </div>
+
+            <div class="form-group">
+                <label>연락처</label>
+                <input type="text" class="form-control" name="restaurant" th:value="${dto.contact}">
+            </div>
+
+        </form>
+
+        <button type="button" class="btn btn-primary modifyBtn">수정</button>
+        <button type="button" class="btn btn-info listBtn">메인 화면</button>
+        <button type="button"class="btn btn-danger"
+                th:onclick="|location.href='@{/univFood/delete/{uno}(uno=${dto.uno})}'|">삭제</button>
+
+        <script th:lnline="javascript">
+            var actionForm = $("form");
+
+            $(".modifyBtn").click(function(){
+                if(!confirm("수정하시겠습니까")){
+                    return;
+                }
+
+                actionForm
+                .attr("action", "/univFood/modify")
+                .attr("method", "post")
+                .submit();
+            });
+
+            $(".listBtn").click(function(){
+                var page = $("input[name='page']");
+                var type = $("input[name='type']");
+                var keyword = $("input[name='keyword']");
+
+                actionForm.empty(); // form 태그의 모든 내용 지우기
+
+                actionForm.append(page);
+                actionForm.append(type);
+                actionForm.append(keyword);
+
+                actionForm
+                .attr("action", "/univFood/list")
+                .attr("method", "get");
+
+                actionForm.submit();
+            })
+
+        </script>
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>

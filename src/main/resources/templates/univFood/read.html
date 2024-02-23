@@ -164,7 +164,11 @@
     </button>
     <button type="button" class="btn btn-info addReviewBtn">댓글 등록</button>
     <button type="button" class="btn btn-danger deleteUnivFoodBtn">게시글 삭제</button>
-    <button type="button" class="btn btn-warning">게시글 수정</button>
+    <a th:href="@{/univFood/modify(uno=${dto.uno}, page=${requestDTO.page},
+            type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
+      <button type="button" class="btn btn-warning">게시글 수정</button>
+    </a>
+
 
     <div class="list-group reviewList"></div>
 

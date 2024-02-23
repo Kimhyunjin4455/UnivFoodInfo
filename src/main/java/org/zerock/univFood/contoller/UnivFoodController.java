@@ -69,22 +69,22 @@ public class UnivFoodController {
         return "redirect:/univFood";
     }
 
-//    @PostMapping("/modify")
-//    public String modify(UnivFoodDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO,
-//                         RedirectAttributes redirectAttributes){
-//        log.info("-----------------post modify------------------");
-//        log.info("dto: "+dto);
-//
-//        univFoodService.modify(dto);
-//
-//        redirectAttributes.addAttribute("");
-//        redirectAttributes.addAttribute();
-//        redirectAttributes.addAttribute();
-//
-//        redirectAttributes.addAttribute();
-//
-//        return "redirect:/univFood/read";
-//    }
+    @PostMapping("/modify")
+    public String modify(UnivFoodDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO,
+                         RedirectAttributes redirectAttributes){
+        log.info("-----------------post modify------------------");
+        log.info("dto: "+dto);
+
+        univFoodService.modify(dto);
+
+        redirectAttributes.addAttribute("page", requestDTO.getPage());
+        redirectAttributes.addAttribute("type", requestDTO.getType());
+        redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
+
+        redirectAttributes.addAttribute("uno", dto.getUno());
+
+        return "redirect:/univFood/read";
+    }
 
 
 
