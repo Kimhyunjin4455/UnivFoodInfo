@@ -2,13 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
   <th:block th:fragment="content">
-    <h1 class="mt-4"> 우리 대학 맛집 추천 리스트!!!
+    <div style="margin-top: 40px; margin-bottom: 40px;">
+    <h1 class="mt-4" align="center"> 우리 대학 맛집 추천 리스트!!!
       <span>
         <a th:href="@{/univFood/register}">
-          <button type="button" class="btn btn-outline-primary">REGISTER</button>
+          <button type="button" class="btn btn-outline-primary">게시글 등록</button>
         </a>
       </span>
     </h1>
+    </div>
 
     <form action="/univFood/list" method="get" id="searchForm">
       <input type="hidden" name="page" value="1">
@@ -17,7 +19,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">#No.</th>
+          <th scope="col">글번호</th>
           <th scope="col">가게명 & 대표이미지</th>
           <th scope="col">대표 메뉴</th>
           <th scope="col">리뷰 갯수</th>

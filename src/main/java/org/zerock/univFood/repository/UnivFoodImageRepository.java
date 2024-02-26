@@ -19,6 +19,7 @@ public interface UnivFoodImageRepository extends JpaRepository<UnivFoodImage, Lo
 
 
     @Modifying
+    @Transactional
     @Query("delete from UnivFoodImage ui where ui.univFood = :univFood")
     void deleteByUnivFoodImage(UnivFood univFood);   // UnivFood의 Id값을 전달하여 외래키값이 같은 이미지들을 삭제
 }

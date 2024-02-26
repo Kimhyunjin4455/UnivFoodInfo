@@ -10,17 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.zerock.univFood.dto.PageRequestDTO;
 import org.zerock.univFood.dto.PageResultDTO;
 import org.zerock.univFood.dto.UnivFoodDTO;
+import org.zerock.univFood.dto.UnivFoodImageDTO;
 import org.zerock.univFood.entity.UnivFood;
 import org.zerock.univFood.entity.UnivFoodImage;
 import org.zerock.univFood.repository.ReviewRepository;
 import org.zerock.univFood.repository.UnivFoodImageRepository;
 import org.zerock.univFood.repository.UnivFoodRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -37,6 +36,10 @@ public class UnivFoodServiceImpl implements UnivFoodService{
         Map<String, Object> entityMap = dtoToEntity(univFoodDTO); // String -> Object
         UnivFood univFood = (UnivFood) entityMap.get("univFood");
         List<UnivFoodImage> univFoodImageList = (List<UnivFoodImage>) entityMap.get("imgList");
+
+        if(univFoodImageList.size() == 0){
+
+        }
 
         univFoodRepository.save(univFood);
 
@@ -106,16 +109,60 @@ public class UnivFoodServiceImpl implements UnivFoodService{
 
     @Transactional
     @Override
-    public void modify(UnivFoodDTO univFoodDTO){
+    public Long modify(UnivFoodDTO univFoodDTO){
 
-        UnivFood univFood = univFoodRepository.getById(univFoodDTO.getUno());
+        //UnivFood univFood = univFoodRepository.getById(univFoodDTO.getUno());
+
+        Map<String, Object> entityMap = dtoToEntity(univFoodDTO); // String -> Object
+        UnivFood univFood = (UnivFood) entityMap.get("univFood");
+        List<UnivFoodImage> univFoodImageList = (List<UnivFoodImage>) entityMap.get("imgList");
+
+        if(univFoodImageList == null){
+            imageRepository.deleteByUnivFoodImage(univFood);
+
+            UnivFoodImage univFoodImage = UnivFoodImage.builder()
+                    .path("No path")
+                    .uuid(UUID.randomUUID().toString())
+                    .univFood(univFood)
+                    .imgName("NO IMAGE.jpg")
+                    .build();
+
+            UnivFoodImageDTO univFoodImageDTO = UnivFoodImageDTO.builder()
+                    .imgName(univFoodImage.getImgName())
+                    .path(univFoodImage.getPath())
+                    .uuid(univFoodImage.getUuid()).build();
+
+            List<UnivFoodImageDTO> univFoodImageDTOList = new ArrayList<>();
+            univFoodImageDTOList.add(univFoodImageDTO);
+            univFoodDTO.setImageDTOList(univFoodImageDTOList);
+
+
+            imageRepository.save(univFoodImage);
+
+            univFood.changeRestaurantName(univFoodDTO.getRestaurantName());
+            univFood.changeSignatureMenu(univFoodDTO.getSignatureMenu());
+            univFood.changeContact(univFoodDTO.getContact());
+            univFood.changeAddress(univFoodDTO.getAddress());
+
+            return univFood.getUno();
+        }
 
         univFood.changeRestaurantName(univFoodDTO.getRestaurantName());
         univFood.changeSignatureMenu(univFoodDTO.getSignatureMenu());
         univFood.changeContact(univFoodDTO.getContact());
         univFood.changeAddress(univFoodDTO.getAddress());
 
+
+        imageRepository.deleteByUnivFoodImage(univFood); // 기존이랑 다르면 재작성하기 기능 추가
+        univFoodImageList.forEach(univFoodImage -> {
+            imageRepository.save(univFoodImage);
+        });
+
+
+
         univFoodRepository.save(univFood);
+
+        return univFood.getUno();
     }
 
 }

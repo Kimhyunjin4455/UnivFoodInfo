@@ -75,13 +75,21 @@ public class UnivFoodController {
         log.info("-----------------post modify------------------");
         log.info("dto: "+dto);
 
-        univFoodService.modify(dto);
+        Long uno = univFoodService.modify(dto);
+        log.info(dto.getImageDTOList());
 
+        redirectAttributes.addAttribute("uno", uno);
+//        redirectAttributes.addAttribute("restaurantName", dto.getRestaurantName());
+//        redirectAttributes.addAttribute("signatureMenu", dto.getSignatureMenu());
+//        redirectAttributes.addAttribute("address", dto.getAddress());
+//        redirectAttributes.addAttribute("contact", dto.getContact());
+//        redirectAttributes.addAttribute("imgList", dto.getImageDTOList());
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
 
-        redirectAttributes.addAttribute("uno", dto.getUno());
+
+
 
         return "redirect:/univFood/read";
     }
